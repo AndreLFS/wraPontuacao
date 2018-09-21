@@ -45,7 +45,7 @@
 			<div class="col-sm-4 invoice-col">
 				<div class="input-group">
 					<span class="input-group-addon">Numero de Pontos</span>
-					<input type="number" class="form-control" name="quantidade">
+					<input type="number" class="form-control" name="pontos">
 				</div>
 			</div>
 			<div class="col-sm-4 invoice-col">

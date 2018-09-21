@@ -52,26 +52,31 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.html">SB Admin v2.0</a>
+                <a class="navbar-brand" href="<?php echo base_url('loja'); ?>">SB Admin v2.0</a>
             </div>
             <!-- /.navbar-header -->
-
+            <?php
+                //trata o nome para aparecer os 2 primeiros
+                //caso n tenha 2 nomes so aparecera o primeiro
+                $arr = explode(' ', $cliente->nome );
+                if(isset($arr['1'])){
+                    $nome = $arr['0'].' '.$arr['1'];
+                }else{
+                    $nome = $arr['0'];
+                }
+            ?>
             <ul class="nav navbar-top-links navbar-right">
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                        <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
+                        <i class="fa fa-user fa-fw"></i> 
+                        <?php echo $nome; ?>
+                        <i class="fa fa-caret-down"></i>
+                        
                     </a>
                     <ul class="dropdown-menu dropdown-user">
-                        <?php
-                            //trata o nome para aparecer os 2 primeiros
-                            //caso n tenha 2 nomes so aparecera o primeiro
-                            $arr = explode(' ', $cliente->nome );
-                            if(isset($arr['1'])){
-                                $nome = $arr['0'].' '.$arr['1'];
-                            }else{
-                                $nome = $arr['0'];
-                            }
-                        ?>
+                        <li>
+                            <?php echo 'Golds Acumulados: '.$cliente->pontos; ?>
+                        </li>
                         <li><a href="<?php echo base_url('loja/informacoes'); ?>"><i class="fa fa-user fa-fw"></i><?php echo $nome; ?></a>
                         </li>
                         <li><a href="<?php echo base_url('loja/senha'); ?>"><i class="fa fa-key fa-fw"></i>Alterar senha</a>

@@ -4,7 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Praca extends MY_Controller{
 	function __construct(){
         parent::__construct();
-        if($this->session->userdata("logado") != '1')){
+        if($this->session->userdata("logado") != '1'){
             redirect(base_url('AcessoNegado'));
         }
         $this->load->model('Praca_model', 'praca');

@@ -7,6 +7,7 @@ class Loja extends MY_Controller{
         $this->load->model('Cliente_model', 'cliente');
         $this->load->model('Brinde_model', 'brinde');
         $this->load->model('Ponto_model', 'ponto');
+        $this->load->model('Pedido_model', 'pedido');
     }
 
 	public function index(){
@@ -57,21 +58,60 @@ class Loja extends MY_Controller{
     		}else{
     			$dados['erro'] = 'As senhas não coincidem!';
     		}
-		
     	}
-
-
         $this->template->load('templateLoja', 'cliente/alterarSenha', $dados);
     }
 
     public function pontos(){
+        $dados['cliente'] = $this->cliente->getCliente($this->session->userdata("logado"));
         $dados['pontosTable'] = $this->ponto->getPontoTable();
         $this->template->load('templateLoja', 'cliente/pontos', $dados);
     }
 
     public function carrinho($id){
-    	$dados['brinde'] = $this->brinde->getList($id);
+        $dados['brinde'] = $this->brinde->getList($id);
         $dados['cliente'] = $this->cliente->getCliente($this->session->userdata("logado"));
         $this->template->load('templateLoja', 'brinde/carrinho', $dados);
     }
+
+    public function pedido($id = null){
+        if($id != null){
+            $brindeCompra = $this->brinde->getList($id);
+            $cliente = $this->cliente->getCliente($this->session->userdata("logado"));
+            $dados['cliente'] = $cliente;
+            $dados['brinde'] = $brindeCompra;
+            if( $cliente->pontos >= $brindeCompra->pontuacao ){
+                $brinde['data'] = 'current_date';
+                $brinde['status'] = '0';
+                $brinde['idCliente'] = $cliente->idCliente;
+                $brinde['idPraca'] = $cliente->idPraca;
+                $brinde['idBrinde'] =  $brindeCompra->idBrinde;
+                $brinde['pontos'] =  $brindeCompra->pontuacao;
+                $brinde['data'] =   date('Y-m-d');
+                $pedido = $this->pedido->salvar($brinde);
+
+                $this->ponto->criarPedido($cliente->idCliente, $brindeCompra->pontuacao);
+                redirect(base_url('loja/msg/realizado'));
+                return;
+            }else{
+                redirect(base_url('loja/msg/negado'));
+                return;
+            }
+        }
+        $this->template->load('templateLoja', 'brinde/carrinho', $dados);
+    }
+     public function msg($msg = null){
+        $dados['cliente'] = $this->cliente->getCliente($this->session->userdata("logado")); 
+        if($msg === 'negado'){
+            $this->template->load('templateLoja', 'pedido/negado', $dados);
+        }else{
+            $this->template->load('templateLoja', 'pedido/realizado', $dados);
+        }
+    }
+
+    public function pedidos(){
+        $dados ['pedidoTable'] = $this->pedido->getPedidoTableCliente($this->session->userdata("logado"));
+        $this->template->load('template', 'cliente/pedido', $dados);
+    }
+
 }

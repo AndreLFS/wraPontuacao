@@ -1,6 +1,11 @@
 <?php
 class Cliente_model extends CI_Model {
 
+  function __construct(){
+      parent::__construct();
+      $this->load->model('Ponto_model', 'ponto');
+  }
+
   public function salvar($admin = null){
     if($admin != null){
       $this->db->insert('cliente', $admin); 
@@ -42,8 +47,10 @@ class Cliente_model extends CI_Model {
 
    public function getCliente($id){
     $query = $this->db->get_where('cliente', array('idCliente' => $id));
+    $query->result()['0']->pontos = $this->ponto->pontos($id);
     return  $query->result()['0'];
   }
+
 
   public function update($dados = NULL, $id = NULL){
     if($dados != NULL && $id != NULL){

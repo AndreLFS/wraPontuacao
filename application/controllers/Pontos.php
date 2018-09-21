@@ -21,16 +21,14 @@ class Pontos extends MY_Controller{
     	$dados ['msg'] = '';
     	$dados ['erro'] = '';
         $dados ['praca'] = $this->praca->select_Praca();
-        if(!empty($this->input->post('quantidade'))){
+        if(!empty($this->input->post('pontos'))){
             $data['idCliente'] = ($this->input->post('cliente'));
-            $data['quantidade'] = ($this->input->post('quantidade'));
+            $data['pontos'] = ($this->input->post('pontos'));
+            $data['restante'] = $data['pontos'];
             $data['data'] = ($this->input->post('data'));
             $data['descricao'] = ($this->input->post('descricao'));
             $data['entrada'] = '1';
             if($this->ponto->salvar($data)){
-                $pontos = $this->cliente->getCliente($data['idCliente'])->pontos;
-                $pontos += $data['quantidade'];
-                $this->cliente->update(array('pontos'=> $pontos), $data['idCliente'] );
                 $dados ['msg'] = 'Cadastrado Com sucesso';
             }else{
                 $dados ['erro'] = 'Erro no cadastro';

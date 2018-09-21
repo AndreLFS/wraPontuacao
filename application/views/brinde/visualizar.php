@@ -10,7 +10,7 @@
 		<p><?php echo $brinde->descricao; ?></p>
 		<hr/>
 		
-		Pontos Necessarios: <span class="original_price"><?php echo $brinde->pontuacao; ?></span>
+		Golds Necessarios: <span class="original_price"><?php echo $brinde->pontuacao; ?></span>
 		
 		<form action="<?php echo base_url('loja/carrinho/'.$brinde->idBrinde);?>" >
 			<input class="addtocart_submit" type="submit" value="Fazer o Pedido" />

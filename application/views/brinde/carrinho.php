@@ -11,4 +11,8 @@
 		<td><?php echo $brinde->titulo; ?></td>
 		<td><?php echo $brinde->pontuacao; ?></td>
 	</tr>
+
+	<form action="<?php echo base_url('loja/pedido/'.$brinde->idBrinde);?>" >
+			<input class="addtocart_submit" type="submit" value="Fazer o Pedido" />
+		</form>
 </table>
